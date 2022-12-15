@@ -1,68 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, Text, View, Image, 
         TextInput, KeyboardAvoidingView,
         Platform, 
-        TouchableOpacity,
         ScrollView} from 'react-native';
 import { Checkbox } from "react-native-paper";
-import { acharIdPecaPeloNumeroSerie, acharPecasPeloId, acharPecasPeloIdModelo, acharPecasPeloNumeroSerie } from "../services/pecaService";
-import { acharIdNomePeloTitulo } from "../services/nomeService";
-import { acharIdModeloPeloTitulo } from "../services/modeloService";
 
-export default function PaginaConsulta({navigation}) {
+export default function PaginaCarregamento({navigation}) {
 
-    const [pecas, setPecas] = React.useState([])
-    const [opcao, setOpcao] = React.useState("")
     const [text, onChangeText] = React.useState(null);
     const [isNomeChecked, setNomeChecked] = React.useState(false);
     const [isModeloChecked, setModeloChecked] = React.useState(false);
     const [isSerialChecked, setSerialChecked] = React.useState(false);
 
-    useEffect(() => {
-      async function opcaoEscolhida(){
-        if(isNomeChecked == true){
-          setOpcao("nome")
-        }else if(isModeloChecked == true){
-          setOpcao("modelo")
-        }else if(isSerialChecked == true){
-          setOpcao("serial")
-        }
-      }
-      async function listaPecas(){
-        if(opcao == "nome"){
-          const idNome = await acharIdNomePeloTitulo(text)
-          console.log(idNome)
-          const res = await acharPecasPeloId(idNome.id)
-          setPecas(res)
-        }else if(opcao == "modelo"){
-          const idModelo = await acharIdModeloPeloTitulo(text)
-          console.log(idModelo)
-          const res = await acharPecasPeloIdModelo(idModelo.id)
-          setPecas(res)
-        }else if(opcao == "serial"){
-          const res = await acharPecasPeloNumeroSerie(text)
-          console.log(res)
-          console.log(text)
-          setPecas(res)
-        }
-        
-      }
-      opcaoEscolhida(), listaPecas()
-    }, [opcao, isModeloChecked, isNomeChecked, isSerialChecked])
-    
-    function verificarPesquisa(){
-      if(pecas.length > 0){
-        navigation.navigate('Resultado pesquisa',{valor: text, opcao: opcao, itens: pecas})
-      }else{
-        alert("Não encontrado")
-      }
-    }
-    console.log(pecas)
     return (
         <KeyboardAvoidingView style={{flex: 1, backgroundColor: '#312F42'}} 
                               behavior={Platform.OS === "ios" ? "padding" : null} enabled>
             <ScrollView>
+                
+                
                 <View style={{flexDirection: 'row',
                             justifyContent: 'center',
                             top: 10}}>
@@ -96,13 +52,12 @@ export default function PaginaConsulta({navigation}) {
                                 value={text}
                                 placeholder="digite aqui"/>
                     </View>
-                      <LinearGradient colors={['rgba(255, 0, 199, 0.4)', 'transparent']} 
-                                      style={styles.botaoPesquisar} 
-                                      start={{ x: 0.8, y: 1 }}
-                                      end={{ x: 0, y: 0 }}
-                                      onTouchEnd={verificarPesquisa}>
-                          <Text style={styles.textoBotaoPesquisar}>pesquisar</Text>
-                      </LinearGradient> 
+                    <LinearGradient colors={['rgba(255, 0, 199, 0.4)', 'transparent']} 
+                                    style={styles.botaoPesquisar} 
+                                    start={{ x: 0.8, y: 1 }}
+                                    end={{ x: 0, y: 0 }}>
+                        <Text style={styles.textoBotaoPesquisar}>pesquisar</Text>
+                    </LinearGradient> 
                 </View>
                 <LinearGradient colors={['rgba(255, 0, 199, 0.4)', 'transparent']} 
                                     style={styles.botoesTelaPrin} 
@@ -119,13 +74,6 @@ const styles = StyleSheet.create({
   containerTela: {
     height: 250,
     width: 360,
-  },
-  containerLista: {
-    position: 'absolute',
-    backgroundColor: '#000',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   container: {
     backgroundColor: '#fff',
@@ -148,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderTopStartRadius: 50,
     borderTopEndRadius: 50,
-    height: 560,
+    height: 600,
     width: 360,
     top: 50
   },

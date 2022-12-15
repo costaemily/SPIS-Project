@@ -1,16 +1,37 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { listaQuantidadePecas } from '../services/pecaService';
 
 export default function PaginaPrinciapal({navigation}) {
+
+  const [quantidade, setQuantidade] = useState([])
+  const [quantidadeFinal, setQuantidadeFinal] = useState(0)
+
+  useEffect(() => {
+    async function somarQuantidade(){
+      var quantidadeF = 0
+      let res = await listaQuantidadePecas()
+      setQuantidade(res)
+      res.forEach(function (item, indice) {
+        quantidadeF = quantidadeF + item.quantidade
+      });
+      setQuantidadeFinal(quantidadeF)
+
+    }
+    somarQuantidade()
+  }, [quantidadeFinal])
+
   return (
     <View style={styles.container}>
       <View style={styles.containerTelaPrin}>
         <Image source={require('../imgs/borcelle.png')} style={styles.logo}/>
-        <LinearGradient colors={['rgba(255, 0, 199, 0.4)', 'transparent']} 
+        <LinearGradient colors={['rgba(255, 0, 199, 0.4)', 'transparent']}
                         style={styles.containerNome} 
                         start={{ x: 0.8, y: 1 }}
                         end={{ x: 0, y: 0 }}>
+
           <Text style={styles.textoNomeLoja}>LOJA IACONA TECH</Text>
         </LinearGradient>
         <View style={styles.configBotoes}>
@@ -36,8 +57,8 @@ export default function PaginaPrinciapal({navigation}) {
             <View style={styles.caixaTextoQtdItens}>
               <Text style={styles.textoQtdEstoque}>quantidade de itens no estoque</Text>
             </View>
-            <Text style={styles.textoQTD}>1.200</Text>
-            <Image source={require('../imgs/iconeEstoque.png')} style={styles.logoEstoque}/>
+            <Text style={styles.textoQTD} onPress={() => navigation.navigate('Saída de itens')}>{quantidadeFinal}</Text>
+            <Image source={require('../imgs/iconeEstoque.png')} onTouchEnd={() => navigation.navigate('Entrada de itens')} style={styles.logoEstoque}/>
             
         </View>
         <StatusBar style="auto" />
@@ -73,7 +94,9 @@ const styles = StyleSheet.create({
     height: 60,
     width: 275,
     borderRadius: 20,
-    top: 15
+    top: 15,
+    borderColor: '#FF914D',
+    borderWidth: 1,
   },
   textoNomeLoja: {
     color: '#fff',
@@ -96,6 +119,10 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 20,
     marginTop: 80,
+    borderColor: '#FF914D',
+    borderWidth: 1,
+    elevation: 4,
+    shadowColor: '#000'
   },
   configBotoes: {
     flexDirection: 'row',

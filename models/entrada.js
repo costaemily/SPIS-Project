@@ -1,8 +1,19 @@
-export class Entrada{
-    constructor(dataEntrada, idPeca, idTipoEntrada, quantidade) {
-        this.dataEntrada = dataEntrada;
-        this.idPeca = idPeca;
-        this.idTipoEntrada = idTipoEntrada;
-        this.quantidade = quantidade;
+export let entrada = {
+    "data": {
+        "type": "item",
+        "attributes": {
+            "idpeca": "",
+            "quantidade": 0,
+            "dataentrada": "",
+            "idtipoentrada": ""
+        },
+        "relationships": {
+            "item_type": {
+                "data": {
+                    "type": "item_type",
+                    "id": "904231"
+                }
+            }
+        }
     }
 }

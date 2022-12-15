@@ -1,13 +1,27 @@
-export class Peca{
-    constructor(descricao, idCategoria, idMarca, idNome, numeroSerie, quantidade, valorUnitarioCusto, valorUnitarioVenda) {
-        this.descricao = descricao;
-        this.idCategoria = idCategoria;
-        this.idMarca = idMarca;
-        this.idMarca = idMarca;
-        this.idNome = idNome;
-        this.numeroSerie = numeroSerie;
-        this.quantidade = quantidade;
-        this.valorUnitarioCusto = valorUnitarioCusto;
-        this.valorUnitarioVenda = valorUnitarioVenda;
+export let peca = {
+    "data": {
+        "type": "item",
+        "attributes": {
+            "idnome": "",
+            "idmodelo": [
+
+			],
+            "idmarca": "",
+            "numeroserie": "",
+            "imagem": null,
+            "descricao": "",
+            "quantidade": 0,
+            "valorunitariocusto": 0.0,
+            "valorunitariovenda": 0.0,
+            "idcategoria": ""
+        },
+        "relationships": {
+            "item_type": {
+                "data": {
+                    "type": "item_type",
+                    "id": "904230"
+                }
+            }
+        }
     }
 }
